@@ -2,13 +2,14 @@ from pymongo import MongoClient
 from dotenv import load_dotenv, find_dotenv
 import os
 import pprint
+import certifi
 
 load_dotenv(find_dotenv())
 
 password = os.environ.get("MONGODB_PWD")
 connection_string = f"mongodb+srv://indro:{password}@tutorial.ffav0cu.mongodb.net/?retryWrites=true&w=majority"
 
-client = MongoClient(connection_string)
+client = MongoClient(connection_string, tlsCAFile=certifi.where())
 
 dbs = client.list_database_names()
 print(dbs)
@@ -192,5 +193,4 @@ def add_address_relationship(person_id, _address):
     address_collection = production.address
     address_collection.insert_one(temp_address)
 
-
-add_address_relationship("634bac26900d52006f6346e0", address)
+# add_address_relationship("634bac26900d52006f6346e0", address)
